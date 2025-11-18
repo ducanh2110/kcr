@@ -1,0 +1,32 @@
+plugins {
+    id("application")
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+application {
+    mainClass = "com.nordstrom.kafka.kcr.example.PriceStreamProducer"
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation("org.apache.kafka:kafka-clients:2.5.1")
+    implementation("org.slf4j:slf4j-api:1.7.30")
+    implementation("org.slf4j:slf4j-simple:1.7.30")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.16.0")
+}
+
+// Task to run the producer
+task runProducer(type: JavaExec) {
+    group = "application"
+    description = "Run the price stream producer"
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = "com.nordstrom.kafka.kcr.example.PriceStreamProducer"
+}

@@ -158,9 +158,24 @@ java -jar ./build/libs/kcr-all.jar play --cassette data/my-topic-yyyymmdd_hhmm -
 
 # Example
 
-The `./example` directory has a `docker-compose.yml` that will start a local kafka cluster that can be used for testing.  `kcr` record/play commands default to `localhost:9092`.
+The `./example` directory contains a complete, working demonstration of kcr with:
+- Modern Docker Compose setup using Bitnami Kafka 3.6 (KRaft mode)
+- Java-based price streaming producer generating realistic financial data
+- Scripts for recording and playback at 1x, 2x, and 3x speeds
+- Comprehensive documentation
 
-`create-pepperland` will create several test topics using `kafka-topics.sh` (assumes $CP is defined to point to kafka distribution)
+See [example/README.md](example/README.md) for detailed instructions on running the demo.
+
+**Quick start:**
+```bash
+cd example
+./scripts/start-kafka.sh          # Start Kafka
+./scripts/run-producer.sh          # Generate price data (in new terminal)
+./scripts/record-prices.sh         # Record data (in new terminal, Ctrl+C after 30s)
+./scripts/play-prices-1x.sh        # Playback at normal speed
+./scripts/play-prices-2x.sh        # Playback at 2x speed
+./scripts/play-prices-3x.sh        # Playback at 3x speed
+```
 
 
 # Migration to Java 21
