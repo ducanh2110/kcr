@@ -91,7 +91,9 @@ public class Kcr implements Runnable {
   }
 
   public static void main(String[] args) {
-    int exitCode = new CommandLine(new Kcr()).execute(args);
+    CommandLine cmd = new CommandLine(new Kcr());
+    cmd.setExecutionStrategy(new CommandLine.RunAll());
+    int exitCode = cmd.execute(args);
     System.exit(exitCode);
   }
 }
