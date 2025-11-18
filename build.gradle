@@ -1,7 +1,4 @@
 plugins {
-    // NB: plugin versions pinned in settings.gradle
-    id("org.jetbrains.kotlin.jvm")
-    id("org.jetbrains.kotlin.plugin.serialization")
     id("application")
     id("com.github.johnrengelman.shadow")
     id("com.adarshr.test-logger")
@@ -12,71 +9,67 @@ ext {
     commonsCodecVersion = "1.15"
     kafkaVersion = "2.5.1"
 
-    kotlinxCoroutinesVersion = "1.4.2"
-    kotlinxSerializationVersion = "1.0.0"
-    kotestVersion = "4.3.1"
+    jupiterVersion = "5.10.1"
 
-    jupiterVersion = "5.7.0"
-
-    picocliVersion = "4.6.1"
+    picocliVersion = "4.7.5"
+    jacksonVersion = "2.16.0"
 
     slf4jVersion = "1.7.30"
 }
 
 group = "com.nordstrom.kafka.kcr"
 
-mainClassName = "com.nordstrom.kafka.kcr.KcrKt"
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+application {
+    mainClass = "com.nordstrom.kafka.kcr.Kcr"
+}
 
 sourceSets {
-    deploy
+    main {
+        java {
+            srcDirs = ['src/main/java']
+        }
+    }
+    test {
+        java {
+            srcDirs = ['src/test/java']
+        }
+    }
 }
 
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 dependencies {
-    // Align versions of all Kotlin components
-    implementation platform('org.jetbrains.kotlin:kotlin-bom')
-
-    // Use the Kotlin JDK standard libraries
-    implementation("org.jetbrains.kotlin:kotlin-stdlib")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinxCoroutinesVersion")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:$kotlinxSerializationVersion")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinxSerializationVersion")
-
     // Application dependencies
-//    implementation("info.picocli:picocli:$picocliVersion")
-    implementation("org.slf4j:slf4j-api:$slf4jVersion")
-    implementation("org.slf4j:slf4j-simple:$slf4jVersion")
-    implementation("org.apache.kafka:kafka-clients:$kafkaVersion")
-    implementation("com.github.ajalt:clikt:1.7.0")
+    implementation("info.picocli:picocli:${picocliVersion}")
+    implementation("org.slf4j:slf4j-api:${slf4jVersion}")
+    implementation("org.slf4j:slf4j-simple:${slf4jVersion}")
+    implementation("org.apache.kafka:kafka-clients:${kafkaVersion}")
     implementation("io.micrometer:micrometer-registry-statsd:latest.release")
     implementation("io.micrometer:micrometer-registry-jmx:latest.release")
-    implementation("commons-codec:commons-codec:$commonsCodecVersion")
+    implementation("commons-codec:commons-codec:${commonsCodecVersion}")
+    
+    // Jackson for JSON serialization (replaces kotlinx-serialization)
+    implementation("com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}")
+    implementation("com.fasterxml.jackson.core:jackson-annotations:${jacksonVersion}")
 
-    // Test
-    testImplementation("org.jetbrains.kotlin:kotlin-test")
-    testImplementation("io.kotest:kotest-assertions-core-jvm:$kotestVersion")
-    testImplementation("io.kotest:kotest-runner-junit5-jvm:$kotestVersion")
+    // Test dependencies
     testImplementation("org.junit.jupiter:junit-jupiter-api:${jupiterVersion}")
-    testRuntimeOnly("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
+    testImplementation("org.junit.jupiter:junit-jupiter-params:${jupiterVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${jupiterVersion}")
-}
-
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
-    kotlinOptions {
-        jvmTarget = "11"
-        //NB: Need this for kotlinx-serialization
-        freeCompilerArgs += "-Xuse-experimental=kotlin.Experimental"
-    }
 }
 
 test {
     useJUnitPlatform()
 
     dependsOn("cleanTest")
-    apply plugin: "com.adarshr.test-logger"
 
     testlogger {
         theme("mocha-parallel")
@@ -87,7 +80,13 @@ test {
 
 spotless {
     java {
-        googleJavaFormat("1.9")
+        googleJavaFormat("1.18.1")
         removeUnusedImports()
     }
+}
+
+shadowJar {
+    archiveBaseName = 'kcr'
+    archiveClassifier = 'all'
+    archiveVersion = ''
 }

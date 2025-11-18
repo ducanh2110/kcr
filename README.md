@@ -104,13 +104,20 @@ Metrics are written as [io.micrometer](https://micrometer.io/docs) Timer and Cou
 |send.total.partition.nn|Total record sends for partition 'nn'|
 
 
+## Requirements
+
+- Java 21 (JDK 21)
+- Gradle 8.5+ (included via wrapper)
+
 ## Running the program
 
 ### Build it first
 
 ```
-gradle clean build
+./gradlew clean build
 ```
+
+The build will create a fat JAR at `./build/libs/kcr-all.jar`.
 
 
 ### Recording
