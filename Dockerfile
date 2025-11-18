@@ -1,15 +1,16 @@
-FROM gradle:5.4.1-jdk11 as gradle
+FROM gradle:8.5-jdk21 as gradle
 
 RUN apt-get update && \
     apt-get install -y git && \
-    git clone https://github.com/Nordstrom/kcr.git && \
+    git clone https://github.com/ducanh2110/kcr.git && \
     cd kcr && \
-    gradle clean build
+    git checkout migrate/kotlin-to-java21 && \
+    gradle clean build --no-daemon
 
-FROM openjdk:11-jdk-slim
+FROM eclipse-temurin:21-jdk-alpine
 
-COPY --from=gradle /home/gradle/kcr/build/libs/kcr.jar /usr/app/kcr.jar
+COPY --from=gradle /home/gradle/kcr/build/libs/kcr-all.jar /usr/app/kcr-all.jar
 
 WORKDIR /usr/app
 
-ENTRYPOINT ["java", "-jar", "kcr.jar"]
+ENTRYPOINT ["java", "-jar", "kcr-all.jar"]

@@ -104,13 +104,20 @@ Metrics are written as [io.micrometer](https://micrometer.io/docs) Timer and Cou
 |send.total.partition.nn|Total record sends for partition 'nn'|
 
 
+## Requirements
+
+- Java 21 (JDK 21)
+- Gradle 8.5+ (included via wrapper)
+
 ## Running the program
 
 ### Build it first
 
 ```
-gradle clean build
+./gradlew clean build
 ```
+
+The build will create a fat JAR at `./build/libs/kcr-all.jar`.
 
 
 ### Recording
@@ -156,8 +163,20 @@ The `./example` directory has a `docker-compose.yml` that will start a local kaf
 `create-pepperland` will create several test topics using `kafka-topics.sh` (assumes $CP is defined to point to kafka distribution)
 
 
+# Migration to Java 21
+
+This project has been migrated from Kotlin to Java 21. Key changes include:
+
+- **Java 21 Toolchain**: Using Java 21 features including Virtual Threads for concurrent recording/playback
+- **CLI Framework**: Migrated from Clikt to Picocli
+- **JSON Serialization**: Using Jackson instead of Kotlinx Serialization
+- **Concurrency**: Replaced Kotlin coroutines with Java 21 Virtual Threads for better performance
+- **Testing**: Using JUnit 5 with standard Java testing patterns
+
+All original functionality is preserved with improved performance through Virtual Threads.
+
 # Roadmap
 
-* Switch to `picocli` for command-line arguments
+* ~~Switch to `picocli` for command-line arguments~~ (✓ Completed during Java 21 migration)
 * Use `avro` for cassette format
 * Record / playback from AWS S3
