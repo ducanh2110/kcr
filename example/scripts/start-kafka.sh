@@ -9,19 +9,19 @@ EXAMPLE_DIR="$(dirname "$SCRIPT_DIR")"
 cd "$EXAMPLE_DIR"
 
 echo "Starting Kafka with Docker Compose..."
-docker-compose up -d
+docker compose up -d
 
 echo "Waiting for Kafka to be ready..."
 sleep 10
 
 # Wait for Kafka to be healthy
 for i in {1..30}; do
-  if docker exec kcr-kafka kafka-topics.sh --bootstrap-server localhost:9092 --list &>/dev/null; then
+  if docker exec kcr-kafka /opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --list &>/dev/null; then
     echo "Kafka is ready!"
     
     # Create the prices topic with 3 partitions
     echo "Creating 'prices' topic with 3 partitions..."
-    docker exec kcr-kafka kafka-topics.sh --bootstrap-server localhost:9092 \
+    docker exec kcr-kafka /opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 \
       --create --if-not-exists --topic prices --partitions 3 --replication-factor 1
     
     echo ""

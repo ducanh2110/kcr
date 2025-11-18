@@ -9,7 +9,7 @@ echo "Consuming from topic: $TOPIC"
 echo "Press Ctrl+C to stop"
 echo ""
 
-docker exec -it kcr-kafka kafka-console-consumer.sh \
+docker exec -it kcr-kafka /opt/kafka/bin/kafka-console-consumer.sh \
   --bootstrap-server localhost:9092 \
   --topic "$TOPIC" \
   --from-beginning \

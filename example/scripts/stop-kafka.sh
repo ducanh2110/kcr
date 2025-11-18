@@ -9,6 +9,6 @@ EXAMPLE_DIR="$(dirname "$SCRIPT_DIR")"
 cd "$EXAMPLE_DIR"
 
 echo "Stopping Kafka..."
-docker-compose down -v
+docker compose down -v
 
 echo "Kafka stopped and volumes removed."

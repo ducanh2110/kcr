@@ -9,6 +9,10 @@ EXAMPLE_DIR="$(dirname "$SCRIPT_DIR")"
 
 cd "$PROJECT_ROOT"
 
+# Ensure we use Java 21
+export JAVA_HOME=/usr/lib/jvm/temurin-21-jdk-amd64
+export PATH=$JAVA_HOME/bin:$PATH
+
 # Ensure kcr is built
 if [ ! -f "build/libs/kcr-all.jar" ]; then
   echo "Building kcr..."

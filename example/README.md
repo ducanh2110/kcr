@@ -11,9 +11,11 @@ This example demonstrates how to use Kafka Cassette Recorder (kcr) to record and
 
 ## Prerequisites
 
-- **Docker** and **Docker Compose** (for running Kafka)
-- **Java 21 JDK** (for running the producer and kcr)
+- **Docker** and **Docker Compose V2** (for running Kafka)
+- **Java 21 JDK** (for running the producer and kcr) - The scripts automatically use Java 21
 - **Bash** (for running the provided scripts)
+
+**Note**: Java 21 is required. If you have multiple Java versions installed, the scripts will automatically use Java 21 from `/usr/lib/jvm/temurin-21-jdk-amd64`. If your Java 21 is in a different location, you can set `JAVA_HOME` before running the scripts.
 
 ## Quick Start
 
@@ -26,7 +28,7 @@ Start a local Kafka broker using Docker Compose:
 ```
 
 This will:
-- Start a Kafka broker using Bitnami Kafka 3.6 (KRaft mode - no ZooKeeper needed)
+- Start a Kafka broker using Apache Kafka 3.7.0 (KRaft mode - no ZooKeeper needed)
 - Create a `prices` topic with 3 partitions
 - Make Kafka available at `localhost:9092`
 

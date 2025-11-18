@@ -159,7 +159,7 @@ java -jar ./build/libs/kcr-all.jar play --cassette data/my-topic-yyyymmdd_hhmm -
 # Example
 
 The `./example` directory contains a complete, working demonstration of kcr with:
-- Modern Docker Compose setup using Bitnami Kafka 3.6 (KRaft mode)
+- Modern Docker Compose setup using Apache Kafka 3.7.0 (KRaft mode - no ZooKeeper)
 - Java-based price streaming producer generating realistic financial data
 - Scripts for recording and playback at 1x, 2x, and 3x speeds
 - Comprehensive documentation
