@@ -10,7 +10,7 @@ EXAMPLE_DIR="$(dirname "$SCRIPT_DIR")"
 cd "$PROJECT_ROOT"
 
 # Ensure we use Java 21
-export JAVA_HOME=/usr/lib/jvm/temurin-21-jdk-amd64
+#export JAVA_HOME=/usr/lib/jvm/temurin-21-jdk-amd64
 export PATH=$JAVA_HOME/bin:$PATH
 
 # Find the most recent cassette directory
@@ -33,4 +33,4 @@ java -jar build/libs/kcr-all.jar \
   play \
   --cassette "$CASSETTE" \
   --topic prices_replay \
-  --playback-rate 3.0
+  --playback-rate 100.0

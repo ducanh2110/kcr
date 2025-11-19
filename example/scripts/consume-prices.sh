@@ -3,7 +3,7 @@
 
 set -e
 
-TOPIC=${1:-prices}
+TOPIC=${1:-prices_replay}
 
 echo "Consuming from topic: $TOPIC"
 echo "Press Ctrl+C to stop"

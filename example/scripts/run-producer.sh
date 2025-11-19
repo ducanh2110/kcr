@@ -9,7 +9,7 @@ PROJECT_ROOT="$(dirname "$(dirname "$SCRIPT_DIR")")"
 cd "$PROJECT_ROOT"
 
 # Ensure we use Java 21
-export JAVA_HOME=/usr/lib/jvm/temurin-21-jdk-amd64
+#export JAVA_HOME=/usr/lib/jvm/temurin-21-jdk-amd64
 export PATH=$JAVA_HOME/bin:$PATH
 
 echo "Building example producer..."
